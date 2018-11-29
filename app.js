@@ -13,9 +13,7 @@ const PORT = process.env.PORT || 3000;
 
 // Requiring routes
 const indexRoutes = require("./routes/index")
-
-// Connect with the Database
-mongoose.connect("mongodb://localhost/todolist-app");
+const todoRoutes = require("./routes/todos")
 
 // View Engine
 app.engine('handlebars', handlebars({defaultLayout:'main'}));
@@ -72,6 +70,7 @@ app.use(expressValidator({
 
 
 app.use('/', indexRoutes);
+app.use('/todos', todoRoutes);
 
 
 app.listen(PORT, () => {

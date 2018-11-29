@@ -1,28 +1,27 @@
 const express = require('express');
 passport = require("passport"),
 LocalStrategy = require('passport-local').Strategy,
-router = express.Router();
-
-let User = require('../models/user');
+router = express.Router(),
+db = require("../models");
 
 // Home Page - Dashboard
 router.get('/', checkIsLogged, (req, res, next) => {
    res.render('index');
 });
 
-// Login Form
-router.get('/login', (req, res, next) => {
-   res.render('login');
-});
-
-// Login Processing
-router.post('/login', (req, res, next) => {
-   passport.authenticate('local', {
-      successRedirect: '/',
-      failureRedirect: '/login',
-      failureFlash: true
-   })(req, res, next);
-});
+router.route('/login')
+   // Login Form
+   .get((req, res, next) => {
+      res.render('login');
+   })
+   // Login Processing
+   .post((req, res, next) => {
+      passport.authenticate('local', {
+         successRedirect: '/',
+         failureRedirect: '/login',
+         failureFlash: true
+      })(req, res, next);
+   });
 
 // Logout
 router.get('/logout', (req, res, next) => {
@@ -38,7 +37,6 @@ router.get('/register', (req, res, next) => {
 
 // Process Register
 router.post('/register', (req, res, next) => {
-   console.log(req.body);
    req.checkBody('name', 'Campo NOME é obrigatorio').notEmpty();
    req.checkBody('email', 'Campo E-MAIL é obrigatorio').notEmpty();
    req.checkBody('email', 'Preencha com um endereço de E-MAIL valido').isEmail();
@@ -60,7 +58,7 @@ router.post('/register', (req, res, next) => {
          password: req.body.password
       });
 
-      User.registerUser(newUser, (err, user) => {
+      db.User.registerUser(newUser, (err, user) => {
          if (err) throw err;
          req.flash('success_msg', 'Você está registrado. Pode fazer Login.');
          res.redirect('/login');
@@ -80,7 +78,7 @@ function checkIsLogged(req, res, next) {
 
 // Local Strategy
 passport.use(new LocalStrategy((username, password, done) => {
-   User.getUserByUsername(username, (err, user) => {
+   db.User.getUserByUsername(username, (err, user) => {
       if (err) throw err;
       if (!user) {
          return done(null, false, {
@@ -88,7 +86,7 @@ passport.use(new LocalStrategy((username, password, done) => {
          });
       }
 
-      User.comparePassword(password, user.password, (err, isMatch) => {
+      db.User.comparePassword(password, user.password, (err, isMatch) => {
          if (err) throw err;
          if (isMatch) {
             return done(null, user);
@@ -106,7 +104,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-   User.getUserById(id, (err, user) => {
+   db.User.getUserById(id, (err, user) => {
       done(err, user);
    });
 });
