@@ -1,5 +1,5 @@
 {
-  "name": "todolist-app",
+  "name": "lista-compras-app",
   "version": "1.0.0",
   "description": "Aplicativo de Lista de Tarefas com Login",
   "main": "app.js",

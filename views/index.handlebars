@@ -1,3 +1,35 @@
 <h1>Minhas Tarefas</h1>
 <p>Welcome {{user.name}}</p>
-<p>{{nome}}</p>
+<p>
+    <a href="/items" class="text-info">Ver Itens</a>
+</p>
+
+<ul class="list-group">
+  {{#each items}}
+    <li class="list-group-item">{{name}} | R$ {{price}} | {{category}}</li>
+  {{/each}}
+</ul>
+
+<div class="row">
+   <div class="col-4">
+      <form method="post" action="/items">
+      <div class="form-group">
+         <label>Nome</label>
+         <input class="form-control" type="text" name="name" placeholder="Nome">
+      </div>
+      <div class="form-group">
+         <label>Quantidade</label>
+         <input class="form-control" type="number" name="amount" placeholder="Quantidade">
+      </div>
+      <div class="form-group">
+         <label>Preço</label>
+         <input class="form-control" type="number" name="price" placeholder="Preço">
+      </div>
+     <div class="form-group">
+         <label>Categoria</label>
+         <input class="form-control" type="text" name="category" placeholder="Categoria">
+      </div>
+      <button class="btn btn-primary" type="submit">Add</button>
+      </form>
+   </div>
+</div>

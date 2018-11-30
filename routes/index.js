@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require('express'),
 passport = require("passport"),
 LocalStrategy = require('passport-local').Strategy,
 router = express.Router(),
@@ -51,7 +51,7 @@ router.post('/register', (req, res, next) => {
          errors
       });
    } else {
-      const newUser = new User({
+      const newUser = new db.User({
          name: req.body.name,
          username: req.body.username,
          email: req.body.email,

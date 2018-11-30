@@ -12,8 +12,8 @@ const express = require("express"),
 const PORT = process.env.PORT || 3000;
 
 // Requiring routes
-const indexRoutes = require("./routes/index")
-const todoRoutes = require("./routes/todos")
+const indexRoutes = require("./routes/index");
+const itemRoutes = require("./routes/items");
 
 // View Engine
 app.engine('handlebars', handlebars({defaultLayout:'main'}));
@@ -70,7 +70,7 @@ app.use(expressValidator({
 
 
 app.use('/', indexRoutes);
-app.use('/todos', todoRoutes);
+app.use('/items', itemRoutes);
 
 
 app.listen(PORT, () => {
