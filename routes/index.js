@@ -1,12 +1,13 @@
 const express = require('express'),
 passport = require("passport"),
 LocalStrategy = require('passport-local').Strategy,
+helper = require('../helpers/geral.helper'),
 router = express.Router(),
 db = require("../models");
 
 // Home Page - Dashboard
-router.get('/', checkIsLogged, (req, res, next) => {
-   res.render('index');
+router.get('/', helper.checkIsLogged, (req, res, next) => {
+   res.render('index', { title: "INDEX"});
 });
 
 router.route('/login')
@@ -67,14 +68,14 @@ router.post('/register', (req, res, next) => {
 });
 
 // Access Control
-function checkIsLogged(req, res, next) {
-   if (req.isAuthenticated()) {
-      return next();
-   } else {
-      req.flash('error_msg', 'Você não está autorizado a visualizar esta página');
-      res.redirect('/login');
-   }
-}
+// function checkIsLogged(req, res, next) {
+//    if (req.isAuthenticated()) {
+//       return next();
+//    } else {
+//       req.flash('error_msg', 'Você não está autorizado a visualizar esta página');
+//       res.redirect('/login');
+//    }
+// }
 
 // Local Strategy
 passport.use(new LocalStrategy((username, password, done) => {

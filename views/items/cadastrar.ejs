@@ -1,14 +1,4 @@
-<h1>Minhas Tarefas</h1>
-<p>Welcome {{user.name}}</p>
-<p>
-    <a href="/items" class="text-info">Ver Itens</a>
-</p>
-
-<ul class="list-group">
-  {{#each items}}
-    <li class="list-group-item">{{name}} | R$ {{price}} | {{category}}</li>
-  {{/each}}
-</ul>
+<% include ../layouts/header %>
 
 <div class="row">
    <div class="col-4">
@@ -33,3 +23,5 @@
       </form>
    </div>
 </div>
+
+<% include ../layouts/footer %>

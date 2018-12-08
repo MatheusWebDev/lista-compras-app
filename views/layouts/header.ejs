@@ -3,14 +3,14 @@
 
 <head>
    <meta charset="utf-8">
-   <title>TodoList App</title>
+   <title>App Lista de Compras</title>
    <link rel="stylesheet" href="/css/style.css">
    <link rel="stylesheet" href="https://bootswatch.com/4/flatly/bootstrap.min.css">
 </head>
 
 <body>
    <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-2 px-5 mb-5">
-      <a class="navbar-brand" href="/">TodoList App</a>
+      <a class="navbar-brand" href="/">ShoppingList App</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02"
          aria-expanded="false" aria-label="Toggle navigation">
          <span class="navbar-toggler-icon"></span>
@@ -19,37 +19,36 @@
       <div class="collapse navbar-collapse" id="navbarColor02">
          <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-               <a class="nav-link" href="/">Minhas Tarefas</a>
+               <a class="nav-link" href="/">Home</a>
             </li>
          </ul>
          <ul class="navbar-nav mr-0">
-            {{#if user}}
+            <% if(user){ %>
                <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
-            {{else}}
+            <% } else { %>
                <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
                <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
-            {{/if}}
+            <% }; %>
          </ul>
       </div>
    </nav>
 
    <div class="container">
-      {{#if success_msg}}
-      <div class="alert alert-success">{{success_msg}}</div>
-      {{/if}}
-      {{#if error_msg}}
-      <div class="alert alert-danger">{{error_msg}}</div>
-      {{/if}}
-      {{#if error}}
-      <div class="alert alert-danger">{{error}}</div>
-      {{/if}}
-      {{#if errors}}
-      {{#each errors}}
-      <div class="alert alert-danger">{{msg}}</div>
-      {{/each}}
-      {{/if}}
-      {{{body}}}
-   </div>
-</body>
+      <!-- MENSAGENS DE SUCESSO -->
+      <% if(!isEmpty(success_msg)){ %>
+         <div class="alert alert-success"><%= success_msg %></div>
+      <% }; %>
+      <!-- MENSAGENS DE ERRO -->
+      <% if(!isEmpty(error_msg)){ %>
+         <div class="alert alert-danger"><%= error_msg %></div>
+      <% }; %>
+      <% if(!isEmpty(error)){ %>
+         <div class="alert alert-danger"><%= error %></div>
+      <% }; %>
+      <!-- MENSAGENS DE VALIDAÇÃO FORMULÁRIO -->
+      <% if(typeof errors !== 'undefined'){ %>
+         <% errors.forEach( error => { %>
+            <div class="alert alert-danger"><%= error.msg %></div>
+         <% }); %>
+      <% }; %>
 
-</html>
