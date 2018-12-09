@@ -1,0 +1,17 @@
+<% include ../layouts/header %>
+
+<% if(categories.length > 0) { %>
+  <ul class="list-group">
+    <%= categories %>
+    <% categories.forEach( category => { %>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <%= category.title %>
+        <span class="badge badge-primary badge-pill"><%= category.qtdItens %></span>
+      </li>
+    <% }) %>
+  </ul>
+<% } else { %>
+  <div class="alert alert-info">Nenhuma categoria cadastrada.</div>
+<% } %>
+
+<% include ../layouts/footer %>

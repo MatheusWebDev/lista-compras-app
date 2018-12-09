@@ -8,6 +8,10 @@ var categorySchema = new mongoose.Schema({
    desc: {
       type: String,
       default: ''
+   },
+   qtdItens: {
+      type: Number,
+      default: 0
    }
 });
 

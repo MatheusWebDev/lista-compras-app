@@ -6,8 +6,13 @@ const db = require("../models");
 router.get('/', (req, res) => { // Mostrar Categorias
    db.Category.find((err, categories) => {
       if (err) return res.send(err);
+      categories.forEach(cat => {
+         db.Item.find({ category: cat.title }, '_id', (err, itens) => {
+            cat.qtdItens = itens.length;
+         });
+      });
       res.render('categories/list', {
-         title: 'Lista de Categorias',
+         title: 'Categorias',
          categories
       });
    });
@@ -40,7 +45,7 @@ router.route('/add')
             res.render('categories/form', { title: 'Editar Categoria', errors });
          }
          req.flash('sucess_msg', 'Categoria adicionada com sucesso');
-         res.redirect('/gerenciar');
+         res.redirect('/categorias/gerenciar');
       });
    });
 
@@ -48,7 +53,7 @@ router.route('/edit/:id')
    .get((req, res) => { // EDIT form
       db.Category.findById(req.params.id, (err, category) => {
          if (err) return res.send(err);
-         res.render('categories/form', { title: 'Editar Categoria', category });
+         res.render('categories/form', { title: 'Editar Categoria', category: category });
       });
    })
    .put((req, res) => { // EDIT action
@@ -63,15 +68,16 @@ router.route('/edit/:id')
             res.render('categories/form', { title: 'Editar Categoria', errors });
          }
          req.flash('sucess_msg', 'Categoria atualizada com sucesso');
-         res.redirect('/gerenciar');
-      });
-   })
-   .delete((req, res) => { // DELETE action
-      db.Category.findOneAndDelete(req.params.id, (err, category) => {
-         if (err) return res.send(err);
-         req.flash('success_msg', 'Categoria deletada com sucesso');
-         res.redirect('/gerenciar');
+         res.redirect('/categorias/gerenciar');
       });
    });
+
+router.delete('/del/:id', (req, res) => { // DELETE action
+   db.Category.findOneAndDelete(req.params.id, (err, category) => {
+      if (err) return res.send(err);
+      req.flash('success_msg', 'Categoria deletada com sucesso');
+      res.redirect('/categorias/gerenciar');
+   });
+});
 
 module.exports = router;

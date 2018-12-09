@@ -1,0 +1,31 @@
+<% include ../layouts/header %>
+
+<div class="row">
+	<div class="col-4">
+		<h2><%= title %></h2>
+		<form method="post" action="<%= typeof category === 'undefined' ? '/categorias/add' : '/categorias/edit/'+category._id+'?_method=PUT' %>">
+			<div class="form-group">
+				<label>Titulo</label>
+				<% if(typeof category === 'undefined'){ %>
+					<input class="form-control" type="text" name="title" placeholder="Titulo">
+				<% } else { %>
+					<input class="form-control" type="text" name="title" value="<%= category.title %>">
+				<% } %>
+			</div>
+		  <div class="form-group">
+				<label>Descrição</label>
+				<% if(typeof category === 'undefined'){ %>
+					<input class="form-control" type="text" name="desc" placeholder="Descrição">
+				<% } else { %>
+					<input class="form-control" type="text" name="desc" value="<%= category.desc %>">
+				<% } %>
+			</div>
+			<button class="btn btn-primary" type="submit">Salvar</button>
+		</form>
+		<p>
+			<a href="/categorias/gerenciar" class="text-info">Voltar</a>
+		</p>
+	</div>
+</div>
+
+<% include ../layouts/footer %>
