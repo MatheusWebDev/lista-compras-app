@@ -13,7 +13,7 @@ router.get('/', helper.checkIsLogged, (req, res, next) => {
 router.route('/login')
    // Login Form
    .get((req, res, next) => {
-      res.render('login');
+      res.render('login', { title: "Login"});
    })
    // Login Processing
    .post((req, res, next) => {
@@ -33,7 +33,7 @@ router.get('/logout', (req, res, next) => {
 
 // Register Form
 router.get('/register', (req, res, next) => {
-   res.render('register');
+   res.render('register', { title: "Registrar"});
 });
 
 // Process Register

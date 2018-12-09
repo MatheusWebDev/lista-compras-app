@@ -1,0 +1,40 @@
+<% include ../layouts/header %>
+
+<div class="row">
+	<div class="col-4">
+		<h2><%= title %></h2>
+		<form method="post" action="<%= typeof item === 'undefined' ? '/itens/add' : '/itens/edit/'+item._id+'?_method=PUT' %>">
+			<div class="form-group">
+				<label>Nome</label>
+				<% if(typeof item === 'undefined'){ %>
+					<input class="form-control" type="text" name="name" placeholder="Nome">
+				<% } else { %>
+					<input class="form-control" type="text" name="name" value="<%= item.name %>">
+				<% } %>
+			</div>
+		  <div class="form-group">
+				<label>Categoria</label>
+				<% if(typeof item === 'undefined'){ %>
+					<input class="form-control" type="text" name="category" placeholder="Categoria">
+				<% } else { %>
+					<input class="form-control" type="text" name="category" value="<%= item.category %>">
+				<% } %>
+			</div>
+			<button class="btn btn-primary" type="submit">Salvar</button>
+		</form>
+		<p>
+			<a href="/itens" class="text-info">Voltar</a>
+		</p>
+	</div>
+</div>
+
+<% include ../layouts/footer %>
+
+		<!--<div class="form-group">-->
+		<!--   <label>Quantidade</label>-->
+		<!--   <input class="form-control" type="number" name="amount" placeholder="Quantidade">-->
+		<!--</div>-->
+		<!--<div class="form-group">-->
+		<!--   <label>Preço</label>-->
+		<!--   <input class="form-control" type="number" name="price" placeholder="Preço">-->
+		<!--</div>-->

@@ -5,3 +5,4 @@ mongoose.connect('mongodb://localhost/todolist-app', { useNewUrlParser: true });
 
 module.exports.User = require("./user");
 module.exports.Item = require("./item");
+module.exports.Category = require("./category");
