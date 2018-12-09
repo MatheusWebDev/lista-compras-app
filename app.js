@@ -72,7 +72,7 @@ app.use(expressValidator({
 
 
 app.use('/', indexRoutes);
-app.use('/items', itemRoutes);
+app.use('/itens', itemRoutes);
 app.use('/listas', listRoutes);
 
 

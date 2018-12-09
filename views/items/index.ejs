@@ -1,9 +1,0 @@
-<% include ../layouts/header %>
-
-<ul class="list-group">
-  <% items.foreach( item => { %>
-    <li class="list-group-item"><%= item.name %> | R$ <%= item.price %> | <%= item.category %></li>
-  <% }); %>
-</ul>
-
-<% include ../layouts/footer %>

@@ -3,8 +3,8 @@ var express = require('express'),
    helper = require('../helpers/geral.helper'),
    db = require("../models");
    
-router.get('/', helper.checkIsLogged, (req, res) => {
-   res.send("GET é rota das listas de compras"); 
+router.get('/', (req, res) => {
+   res.render('listas/listar', { title: 'Listas de Compras' }); 
 });
 
 router.get('/add', (req, res) => {

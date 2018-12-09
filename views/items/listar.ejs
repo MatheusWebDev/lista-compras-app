@@ -1,0 +1,30 @@
+<% include ../layouts/header %>
+
+<table class="table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">Nome</th>
+      <th scope="col">Categoria</th>
+      <th scope="col"> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% items.forEach( item => { %>
+      <tr>
+        <td><%= item.name %></td>
+        <td><%= item.category %></td>
+        <td>
+          <form action="/itens/del/<%= item._id %>?_method=DELETE" method="POST">
+            <button type="submit" class="btn btn-link text-danger">Del</button>
+          </form>
+        </td>
+      </tr>
+    <% }); %>
+  </tbody>
+</table>
+
+<p>
+    <a href="/itens/add" class="text-info">Add item</a>
+</p>
+
+<% include ../layouts/footer %>

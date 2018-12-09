@@ -11,7 +11,7 @@ var itemSchema = new mongoose.Schema({
     },
     price: {
         type: Number,
-        required: 'Preço não pode estar vazio!'
+        default: 0.01
     },
     category: {
         type: String,
@@ -25,8 +25,16 @@ module.exports = Item;
 
 module.exports.getItems = function (callback, limit) {
    Item.find(callback).limit(limit);
-} 
+};
 
-module.exports.createItem = function (newItem, callback) {
+module.exports.create = function (newItem, callback) {
    Item.create(newItem, callback);
-}
+};
+
+module.exports.update = function(query, update, callback){
+  Item.update(query, update, callback);
+};
+
+module.exports.delete = function (query, callback) {
+    Item.deleteOne(query, callback);
+};

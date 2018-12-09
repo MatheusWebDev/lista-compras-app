@@ -7,7 +7,7 @@ db = require("../models");
 
 // Home Page - Dashboard
 router.get('/', helper.checkIsLogged, (req, res, next) => {
-   res.render('index', { title: "INDEX"});
+   res.render('index', { title: "Home"});
 });
 
 router.route('/login')

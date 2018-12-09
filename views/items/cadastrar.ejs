@@ -2,18 +2,10 @@
 
 <div class="row">
    <div class="col-4">
-      <form method="post" action="/items">
+      <form method="post" action="/itens/add">
       <div class="form-group">
          <label>Nome</label>
          <input class="form-control" type="text" name="name" placeholder="Nome">
-      </div>
-      <div class="form-group">
-         <label>Quantidade</label>
-         <input class="form-control" type="number" name="amount" placeholder="Quantidade">
-      </div>
-      <div class="form-group">
-         <label>Preço</label>
-         <input class="form-control" type="number" name="price" placeholder="Preço">
       </div>
      <div class="form-group">
          <label>Categoria</label>
@@ -21,7 +13,19 @@
       </div>
       <button class="btn btn-primary" type="submit">Add</button>
       </form>
+      <p>
+         <a href="/itens" class="text-info">Voltar</a>
+      </p>
    </div>
 </div>
 
 <% include ../layouts/footer %>
+
+      <!--<div class="form-group">-->
+      <!--   <label>Quantidade</label>-->
+      <!--   <input class="form-control" type="number" name="amount" placeholder="Quantidade">-->
+      <!--</div>-->
+      <!--<div class="form-group">-->
+      <!--   <label>Preço</label>-->
+      <!--   <input class="form-control" type="number" name="price" placeholder="Preço">-->
+      <!--</div>-->

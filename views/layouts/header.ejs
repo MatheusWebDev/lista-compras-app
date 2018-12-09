@@ -18,8 +18,14 @@
 
       <div class="collapse navbar-collapse" id="navbarColor02">
          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+            <li class="nav-item <%= title === 'Home' ? 'active' : '' %>">
                <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item <%= title === 'Lista Itens' ? 'active' : '' %>">
+               <a class="nav-link" href="/itens">Lista Itens</a>
+            </li>
+            <li class="nav-item <%= title === 'Listas de Compras' ? 'active' : '' %>">
+               <a class="nav-link" href="/">Listas de Compras</a>
             </li>
          </ul>
          <ul class="navbar-nav mr-0">

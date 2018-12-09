@@ -3,53 +3,76 @@ var express = require('express'),
    helper = require('../helpers/geral.helper'),
    db = require("../models");
 
-router.get('/', helper.checkIsLogged, (req, res) => {
+router.get('/', (req, res) => {
   db.Item.getItems((err, items) => {
 	 if (err) return res.send(err);
-	  res.render('index', {
-		title: 'Items',
+	  res.render('items/listar', {
+		title: 'Lista Itens',
 		items: items
 	});
   });
 });
 
-router.get('/add', helper.checkIsLogged, (req, res) => {
-  res.render('items/cadastrar', {	title: 'Add Item' });
-});
+router.route('/add')
+	.get((req, res) => {
+		res.render('items/cadastrar', { title: 'Add Item' });
+	})
+	.post((req, res) => {
+	  req.checkBody('name', 'Campo NOME é obrigatorio').notEmpty();
+	
+	  let errors = req.validationErrors();
+	  
+	  if (errors) {
+		  res.render('items/cadastrar', { title: 'Add Item', errors: errors });
+	  } else {
+		 let newItem = new db.Item({
+			name: req.body.name
+		 });
+		 if (req.body.category) newItem.category = req.body.category;
+		 
+		 db.Item.create(newItem, (err, item) => {
+			 if (err) return res.send(err);
+			 req.flash('success_msg', 'Item salvo com sucesso');
+			 res.redirect('/itens');
+		 });
+	  }
+	});
+	
 
-router.post('/add', (req, res, next) => {
-  req.checkBody('name', 'Campo NOME é obrigatorio').notEmpty();
-  req.checkBody('price', 'Campo PREÇO é obrigatorio').notEmpty();
-
-  let errors = req.validationErrors();
-  
-  if (errors) {
-	  res.render('index', { errors: errors });
-  } else {
-	 let newItem = new db.Item({
-		name: req.body.name,
-		amount: req.body.amount,
-		price: req.body.price,
-		category: req.body.category
-	 });
-	 db.Item.createItem(newItem, (err, item) => {
-		 if (err) return res.send(err);
-		 req.flash('success_msg', 'Item salvo');
-		 res.redirect('/');
-	 });
+router.get('/edit/:id', (req, res, next) => {
+  const query = {_id: req.params.id}
+  const updateItem = {
+    title: req.body.name
   }
-
+  db.Item.update(query, updateItem, (err, item) => {
+    if(err){
+      res.send(err);
+    }
+    res.redirect('/itens');
+  });
 });
 
-// Access Control
-// function checkIsLogged(req, res, next) {
-//   if (req.isAuthenticated()) {
-//       return next();
-//   } else {
-//       req.flash('error_msg', 'Você não está autorizado a visualizar esta página');
-//       res.redirect('/login');
-//   }
-// }
+router.post('/edit/:id', (req, res, next) => {
+  const query = {_id: req.params.id}
+  const updateItem = {
+    title: req.body.name
+  }
+  db.Item.update(query, updateItem, (err, item) => {
+    if(err){
+      res.send(err);
+    }
+    res.redirect('/itens');
+  });
+});
 
+router.delete('/del/:id', (req, res) => {
+	const query = { _id: req.params.id };
+	
+	db.Item.delete(query, (err) => {
+		if (err) return res.send(err);
+		req.flash('success_msg', 'Item deletado com sucesso');
+		res.redirect('/itens');
+	});	
+});
 
 module.exports = router;
