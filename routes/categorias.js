@@ -6,11 +6,6 @@ const db = require("../models");
 router.get('/', (req, res) => { // Mostrar Categorias
    db.Category.find((err, categories) => {
       if (err) return res.send(err);
-      categories.forEach(cat => {
-         db.Item.find({ category: cat.title }, '_id', (err, itens) => {
-            cat.qtdItens = itens.length;
-         });
-      });
       res.render('categories/list', {
          title: 'Categorias',
          categories

@@ -19,24 +19,32 @@ router.route('/add')
 	})
 	.post((req, res) => {
 		req.checkBody('name', 'Campo NOME é obrigatorio').notEmpty();
-
 		let errors = req.validationErrors();
 
 		if (errors) {
-			res.render('items/form', { title: 'Add Item', errors });
+			return res.render('items/form', { title: 'Add Item', errors });
 		}
-		else {
-			let newItem = new db.Item({
-				name: req.body.name
-			});
-			if (req.body.category) newItem.category = req.body.category;
 
-			db.Item.create(newItem, (err, item) => {
-				if (err) return res.send(err);
-				req.flash('success_msg', 'Item salvo com sucesso');
-				res.redirect('/itens');
+		let newItem = new db.Item({
+			name: req.body.name
+		});
+
+		if (req.body.category) {
+			newItem.category = req.body.category;
+			let query = { title: req.body.category };
+			let update = { qtdItens: +1 };
+			db.Category.findOneAndUpdate(query, update, (err, category) => {
+				if (err) console.log(err);
+				console.log(category);
 			});
 		}
+
+		db.Item.create(newItem, (err, item) => {
+			if (err) return res.send(err);
+			req.flash('success_msg', 'Item salvo com sucesso');
+			res.redirect('/itens');
+		});
+
 	});
 
 
