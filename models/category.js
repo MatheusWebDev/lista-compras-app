@@ -11,7 +11,7 @@ var categorySchema = new mongoose.Schema({
    },
    qtdItens: {
       type: Number,
-      default: 0
+      default: 0,
    }
 });
 

@@ -15,10 +15,14 @@ router.get('/', (req, res) => {
 
 router.route('/add')
 	.get((req, res) => {
-		res.render('items/form', { title: 'Add Item' });
+		db.Category.find((err, categories) => {
+			if (err) return res.send(err);
+			res.render('items/form', { title: 'Add Item', categories });
+		});
 	})
 	.post((req, res) => {
 		req.checkBody('name', 'Campo NOME é obrigatorio').notEmpty();
+		req.checkBody('category', 'Campo Categoria é obrigatorio').notEmpty();
 		let errors = req.validationErrors();
 
 		if (errors) {
@@ -31,20 +35,20 @@ router.route('/add')
 
 		if (req.body.category) {
 			newItem.category = req.body.category;
-			let query = { title: req.body.category };
-			let update = { qtdItens: +1 };
-			db.Category.findOneAndUpdate(query, update, (err, category) => {
-				if (err) console.log(err);
-				console.log(category);
-			});
 		}
 
 		db.Item.create(newItem, (err, item) => {
 			if (err) return res.send(err);
-			req.flash('success_msg', 'Item salvo com sucesso');
-			res.redirect('/itens');
+			db.Category.findOne({ title: req.body.category }, (err, category) => {
+				if (err) return res.send(err);
+				category.qtdItens++;
+				category.save((err, data) => {
+					if (err) return res.send(err);
+					req.flash('success_msg', 'Item salvo com sucesso');
+					res.redirect('/itens');
+				});
+			});
 		});
-
 	});
 
 
@@ -54,7 +58,10 @@ router.route('/edit/:id')
 			if (err) {
 				res.send(err);
 			}
-			res.render('items/form', { title: 'Editar Item', item });
+			db.Category.find((err, categories) => {
+				if (err) return res.send(err);
+				res.render('items/form', { title: 'Editar Item', categories, item });
+			});
 		});
 	})
 	.put((req, res, next) => {
@@ -66,16 +73,43 @@ router.route('/edit/:id')
 			if (err) {
 				res.send(err);
 			}
-			res.redirect('/itens');
+			if (item.category == update.category) {
+				req.flash('success_msg', 'Item editado com sucesso');
+				res.redirect('/itens');
+			}
+			else {
+				db.Category.findOne({ title: item.category }, (err, category1) => {
+					if (err) return res.send(err);
+					category1.qtdItens--;
+					category1.save((err, data) => {
+						if (err) return res.send(err);
+						db.Category.findOne({ title: update.category }, (err, category2) => {
+							category2.qtdItens++;
+							category2.save((err, data) => {
+								if (err) return res.send(err);
+								req.flash('success_msg', 'Item editado com sucesso');
+								res.redirect('/itens');
+							});
+						});
+					});
+				});
+			}
 		});
 	});
 
 
 router.delete('/del/:id', (req, res) => {
-	db.Item.findOneAndDelete(req.params.id, (err) => {
+	db.Item.findOneAndDelete(req.params.id, (err, item) => {
 		if (err) return res.send(err);
-		req.flash('success_msg', 'Item deletado com sucesso');
-		res.redirect('/itens');
+		db.Category.findOne({ title: item.category }, (err, category) => {
+			if (err) return res.send(err);
+			category.qtdItens--;
+			category.save((err, data) => {
+				if (err) return res.send(err);
+				req.flash('success_msg', 'Item deletado com sucesso');
+				res.redirect('/itens');
+			});
+		});
 	});
 });
 

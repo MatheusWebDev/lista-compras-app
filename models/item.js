@@ -1,4 +1,4 @@
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
 var itemSchema = new mongoose.Schema({
     name: {
@@ -15,7 +15,7 @@ var itemSchema = new mongoose.Schema({
     },
     category: {
         type: String,
-        default: 'Todos'
+        required: 'Categoria do item não pode estar vazio!'
     }
 });
 

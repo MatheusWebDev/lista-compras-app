@@ -15,9 +15,20 @@
 		  <div class="form-group">
 				<label>Categoria</label>
 				<% if(typeof item === 'undefined'){ %>
-					<input class="form-control" type="text" name="category" placeholder="Categoria">
+					<select class="custom-select" name="category">
+						<% categories.forEach( category => { %>
+							<option value="<%= category.title %>"><%= category.title %></option>
+						<% }) %>
+					</select>
 				<% } else { %>
-					<input class="form-control" type="text" name="category" value="<%= item.category %>">
+					<select class="custom-select" name="category">
+						<% categories.forEach( category => { %>
+							<% if(item.category == category.title){ %>
+								<option selected value="<%= category.title %>"><%= category.title %></option>
+							<% } %>
+							<option  value="<%= category.title %>"><%= category.title %></option>
+						<% }) %>
+					</select>
 				<% } %>
 			</div>
 			<button class="btn btn-primary" type="submit">Salvar</button>
