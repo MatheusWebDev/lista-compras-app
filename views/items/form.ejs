@@ -16,6 +16,7 @@
 				<label>Categoria</label>
 				<% if(typeof item === 'undefined'){ %>
 					<select class="custom-select" name="category">
+						<option value="">- selecione a categoria -</option>
 						<% categories.forEach( category => { %>
 							<option value="<%= category.title %>"><%= category.title %></option>
 						<% }) %>

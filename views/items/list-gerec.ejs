@@ -1,0 +1,34 @@
+<% include ../layouts/header %>
+
+<% if(items.length > 0) { %>
+<table class="table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col" width="40%">Nome</th>
+      <th scope="col" width="40%">Categoria</th>
+      <th scope="col"> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% items.forEach( item => { %>
+      <tr>
+        <td width="40%"><%= item.name %></td>
+        <td width="40%"><%= item.category %></td>
+        <td>
+          <a href="/itens/edit/<%= item._id %>" class="btn btn-link mr-2">Edit</a>
+          <form action="/itens/del/<%= item._id %>?_method=DELETE" method="POST" class="d-inline-block">
+            <button type="submit" class="btn btn-link text-danger">Del</button>
+          </form>
+        </td>
+      </tr>
+    <% }); %>
+  </tbody>
+</table>
+<% } else { %>
+  <div class="alert alert-info">Nenhum item cadastrado. Adicione novos items no botão abaixo</div>
+<% } %>
+<p>
+    <a href="/itens/add" class="btn btn-primary">Add item</a>
+</p>
+
+<% include ../layouts/footer %>

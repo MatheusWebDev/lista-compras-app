@@ -6,6 +6,14 @@ const db = require("../models");
 router.get('/', (req, res) => { // Mostrar Categorias
    db.Category.find((err, categories) => {
       if (err) return res.send(err);
+      categories.forEach(cat => {
+         db.Item.find({ category: cat.title }, "_id", (err, itens) => {
+            cat.qtdItens = itens.length;
+            cat.save((err) => {
+               if (err) return res.send(err);
+            });
+         });
+      });
       res.render('categories/list', {
          title: 'Categorias',
          categories
@@ -32,16 +40,21 @@ router.route('/add')
       req.checkBody('title', 'Campo TITULO é obrigatorio').notEmpty();
       let errors = req.validationErrors();
 
-      let newCategory = new db.Category({ title: req.body.title });
-      if (req.body.desc) newCategory.desc = req.body.desc;
+      if (errors) {
+         res.render('categories/form', { title: 'Add Categoria', errors });
+      } else {
+         let newCategory = new db.Category({ title: req.body.title });
+         if (req.body.desc) newCategory.desc = req.body.desc;
 
-      db.Category.create(newCategory, (err, category) => {
-         if (err) {
-            res.render('categories/form', { title: 'Editar Categoria', errors });
-         }
-         req.flash('sucess_msg', 'Categoria adicionada com sucesso');
-         res.redirect('/categorias/gerenciar');
-      });
+         db.Category.create(newCategory, (err, category) => {
+            if (err) {
+               res.render('categories/form', { title: 'Editar Categoria', errors });
+            }
+            req.flash('sucess_msg', 'Categoria adicionada com sucesso');
+            res.redirect('/categorias/gerenciar');
+         });
+      }
+
    });
 
 router.route('/edit/:id')
@@ -68,7 +81,7 @@ router.route('/edit/:id')
    });
 
 router.delete('/del/:id', (req, res) => { // DELETE action
-   db.Category.findOneAndDelete(req.params.id, (err, category) => {
+   db.Category.findOneAndDelete({ _id: req.params.id }, null, (err, category) => {
       if (err) return res.send(err);
       req.flash('success_msg', 'Categoria deletada com sucesso');
       res.redirect('/categorias/gerenciar');
