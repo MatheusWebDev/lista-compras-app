@@ -19,11 +19,11 @@
             <li class="nav-item <%= title === 'Listas de Compras' ? 'active' : '' %>">
                <a class="nav-link" href="/listas">Listas de Compras</a>
             </li>
-            <div class="dropdown">
-              <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" role="button" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Gerenciar
-              </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="/itens/gerenciar">Itens</a>
                 <a class="dropdown-item" href="/categorias/gerenciar">Categorias</a>
               </div>

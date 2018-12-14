@@ -1,14 +1,15 @@
 <% include ../layouts/header %>
 
 <% if(categories.length > 0) { %>
-  <ul class="list-group">
+  <h4 class="mb-3">Categorias</h4>
+  <div class="list-group">
     <% categories.forEach( category => { %>
-      <li class="list-group-item d-flex justify-content-between align-items-center">
+      <a href="/itens/<%= category.title.toLowerCase() %>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
         <%= category.title %>
         <span class="badge badge-primary badge-pill"><%= category.qtdItens %></span>
-      </li>
+      </a>
     <% }) %>
-  </ul>
+  </div>
 <% } else { %>
   <div class="alert alert-info">Nenhuma categoria cadastrada.</div>
 <% } %>

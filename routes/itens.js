@@ -4,7 +4,18 @@ const helper = require('../helpers/geral.helper');
 const db = require("../models");
 
 router.get('/', (req, res) => {
-	db.Item.find((err, items) => {
+	db.Item.find({}, null, { sort: { 'category': -1 } }, (err, items) => {
+		if (err) return res.send(err);
+		res.render('items/list', {
+			title: 'Lista Itens',
+			items
+		});
+	});
+});
+
+router.get('/:category', (req, res) => {
+	const cat = req.params.category.charAt(0).toUpperCase() + req.params.category.slice(1);
+	db.Item.find({ category: cat }, (err, items) => {
 		if (err) return res.send(err);
 		res.render('items/list', {
 			title: 'Lista Itens',
