@@ -4,7 +4,7 @@
   <h4 class="mb-3">Categorias</h4>
   <div class="list-group">
     <% categories.forEach( category => { %>
-      <a href="/itens/<%= category.title.toLowerCase() %>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+      <a href="/itens/categoria/<%= category.title.toLowerCase() %>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
         <%= category.title %>
         <span class="badge badge-primary badge-pill"><%= category.qtdItens %></span>
       </a>

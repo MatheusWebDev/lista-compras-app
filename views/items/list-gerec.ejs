@@ -1,5 +1,6 @@
 <% include ../layouts/header %>
 
+<h2><%= title %></h2>
 <% if(items.length > 0) { %>
 <table class="table">
   <thead class="thead-light">
@@ -15,8 +16,8 @@
         <td width="40%"><%= item.name %></td>
         <td width="40%"><%= item.category %></td>
         <td>
-          <a href="/itens/edit/<%= item._id %>" class="btn btn-link mr-2">Edit</a>
-          <form action="/itens/del/<%= item._id %>?_method=DELETE" method="POST" class="d-inline-block">
+          <a href="/itens/<%= item._id %>/edit" class="btn btn-link mr-2">Edit</a>
+          <form action="/itens/<%= item._id %>?_method=DELETE" method="POST" class="d-inline-block">
             <button type="submit" class="btn btn-link text-danger">Del</button>
           </form>
         </td>
@@ -28,7 +29,7 @@
   <div class="alert alert-info">Nenhum item cadastrado. Adicione novos items no botão abaixo</div>
 <% } %>
 <p>
-    <a href="/itens/add" class="btn btn-primary">Add item</a>
+    <a href="/itens/new" class="btn btn-primary">Add item</a>
 </p>
 
 <% include ../layouts/footer %>
