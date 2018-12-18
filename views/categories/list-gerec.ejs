@@ -15,8 +15,8 @@
         <td><%= category.title %></td>
         <td><%= category.desc %></td>
         <td>
-          <a href="/categorias/edit/<%= category._id %>" class="btn btn-link mr-2">Edit</a>
-          <form action="/categorias/del/<%= category._id %>?_method=DELETE" method="POST" class="d-inline-block">
+          <a href="/categorias/<%= category._id %>/edit" class="btn btn-link mr-2">Edit</a>
+          <form action="/categorias/<%= category._id %>?_method=DELETE" method="POST" class="d-inline-block">
             <button type="submit" class="btn btn-link text-danger">Del</button>
           </form>
         </td>
@@ -28,7 +28,7 @@
   <div class="alert alert-info">Nenhuma categoria cadastrada. Adicione novas categorias no botão abaixo</div>
 <% } %>
 <p>
-    <a href="/categorias/add" class="btn btn-primary">Add categoria</a>
+    <a href="/categorias/new" class="btn btn-primary">Add categoria</a>
 </p>
 
 <% include ../layouts/footer %>

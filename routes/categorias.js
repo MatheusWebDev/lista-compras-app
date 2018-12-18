@@ -3,39 +3,27 @@ const router = express.Router();
 const helper = require('../helpers/geral.helper');
 const db = require("../models");
 
-router.get('/', (req, res) => { // Mostrar Categorias
-   db.Category.find((err, categories) => {
-      if (err) return res.send(err);
-      categories.forEach(cat => {
-         db.Item.find({ category: cat.title }, "_id", (err, itens) => {
-            cat.qtdItens = itens.length;
-            cat.save((err) => {
+router.route('/')
+   // Rotas que Lista as CATEGORIAS (usuario comum)
+   .get((req, res) => {
+      db.Category.find((err, categories) => {
+         if (err) return res.send(err);
+         categories.forEach(cat => {
+            db.Item.find({ category: cat.title }, "_id", (err, itens) => {
                if (err) return res.send(err);
+               cat.qtdItens = itens.length;
+               cat.save((err) => {
+                  if (err) return res.send(err);
+               });
             });
          });
+         res.render('categories/list', {
+            title: 'Categorias',
+            categories
+         });
       });
-      res.render('categories/list', {
-         title: 'Categorias',
-         categories
-      });
-   });
-});
-
-
-router.get('/gerenciar', (req, res) => { // Gerenciar categorias
-   db.Category.find((err, categories) => {
-      if (err) return res.send(err);
-      res.render('categories/list-gerec', {
-         title: 'Gerenciar Categorias',
-         categories
-      });
-   });
-});
-
-router.route('/add')
-   .get((req, res) => {
-      res.render('categories/form', { title: 'Add Categoria' });
    })
+   // Rota que ADICIONA uma nova CATEGORIA
    .post((req, res) => {
       req.checkBody('title', 'Campo TITULO é obrigatorio').notEmpty();
       let errors = req.validationErrors();
@@ -54,17 +42,36 @@ router.route('/add')
             res.redirect('/categorias/gerenciar');
          });
       }
-
    });
 
-router.route('/edit/:id')
-   .get((req, res) => { // EDIT form
-      db.Category.findById(req.params.id, (err, category) => {
-         if (err) return res.send(err);
-         res.render('categories/form', { title: 'Editar Categoria', category: category });
+// Lista as CATEGORIAS para gerenciar (ADMIN -> edit e delete)
+router.get('/gerenciar', (req, res) => {
+   db.Category.find((err, categories) => {
+      if (err) return res.send(err);
+      res.render('categories/list-gerec', {
+         title: 'Gerenciar Categorias',
+         categories
       });
-   })
-   .put((req, res) => { // EDIT action
+   });
+});
+
+// Formulário para ADICIONAR nova CATEGORIA
+router.get('/new', (req, res) => {
+   res.render('categories/form', { title: 'Add Categoria' });
+});
+
+// Formulário para EDITAR uma CATEGORIA
+router.get('/:id/edit', (req, res) => { // EDIT form
+   db.Category.findById(req.params.id, (err, category) => {
+      if (err) return res.send(err);
+      res.render('categories/form', { title: 'Editar Categoria', category: category });
+   });
+});
+
+// Rotas de EDITAR e DELETAR uma CATEGORIA
+router.route('/:id')
+   // EDITAR
+   .put((req, res) => {
       req.checkBody('title', 'Campo TITULO é obrigatorio').notEmpty();
       let errors = req.validationErrors();
 
@@ -78,14 +85,14 @@ router.route('/edit/:id')
          req.flash('sucess_msg', 'Categoria atualizada com sucesso');
          res.redirect('/categorias/gerenciar');
       });
+   })
+   // DELETAR
+   .delete((req, res) => {
+      db.Category.findOneAndDelete({ _id: req.params.id }, null, (err, category) => {
+         if (err) return res.send(err);
+         req.flash('success_msg', 'Categoria deletada com sucesso');
+         res.redirect('/categorias/gerenciar');
+      });
    });
-
-router.delete('/del/:id', (req, res) => { // DELETE action
-   db.Category.findOneAndDelete({ _id: req.params.id }, null, (err, category) => {
-      if (err) return res.send(err);
-      req.flash('success_msg', 'Categoria deletada com sucesso');
-      res.redirect('/categorias/gerenciar');
-   });
-});
 
 module.exports = router;

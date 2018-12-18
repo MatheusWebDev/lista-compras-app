@@ -22,6 +22,7 @@ router.route('/')
 
 		if (errors) { // Caso haver ERRO, renderiza o formulário novamente com os erros (find categorias para o select)
 			db.Category.find({}, (err, categories) => {
+				if (err) return res.send(err);
 				res.render('items/form', { title: 'Add Item', errors, categories });
 			});
 		} else {

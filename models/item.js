@@ -7,7 +7,7 @@ var itemSchema = new mongoose.Schema({
     },
     amount: {
         type: Number,
-        default: 1
+        default: 1.00
     },
     price: {
         type: Number,
