@@ -6,6 +6,7 @@ const express = require("express"),
    mongoose = require("mongoose"),
    session = require('express-session'),
    morgan = require('morgan'),
+   moment = require('moment'),
    helper = require('./helpers/geral.helper'),
    flash = require('connect-flash'),
    path = require('path'),
@@ -27,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Body Parser Middleware
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // Method-Override Middleware => override HTTP verbs having '?_method=DELETE'
 app.use(methodOverride('_method'));
@@ -54,6 +55,7 @@ app.use((req, res, next) => {
    res.locals.error = req.flash('error');
    res.locals.user = req.user || null;
    res.locals.isEmpty = helper.isEmpty;
+   res.locals.moment = moment;
    next();
 });
 

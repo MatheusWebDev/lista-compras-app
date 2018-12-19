@@ -1,0 +1,37 @@
+<% include ../layouts/header %>
+
+<div class="row">
+	<div class="col-12">
+		<h2><%= title %><strong><%= lista.name %></strong></h2>
+		<hr>
+		<form method="POST" action="/listas/<%= lista._id %>/itens">
+		  <div class="form-group">
+				<label class="h5 mb-4">Marque os itens que deseja adicionar: </label>
+				<div class="row">
+					<% itens.forEach( item => { %>
+						<div class="col-3">
+							<div class="form-check d-flex align-items-center">
+								<input class="form-check-input" type="checkbox" value="<%= item %>" name="selectedItens" id="<%= item._id %>">
+								<label class="form-check-label" for="<%= item._id %>">
+							        <div class="card text-center mb-4 item-to-check">
+							          <img class="card-img-top img-fluid" src="https://via.placeholder.com/270x180" alt="Card image cap">
+							          <div class="card-body">
+							            <h5 class="card-title"><%= item.name %></h5>
+							            <strong class="text-secondary mr-1">Categoria: </strong><span class="badge badge-primary badge-pill"><%= item.category %></span>
+							          </div>
+							        </div>
+								</label>
+							</div>
+						</div>
+					<% }) %>
+				</div>
+			</div>
+			<button class="btn btn-primary" type="submit">Salvar</button>
+		</form>
+		<p>
+			<a href="/itens" class="text-info">Voltar</a>
+		</p>
+	</div>
+</div>
+
+<% include ../layouts/footer %>

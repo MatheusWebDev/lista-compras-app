@@ -1,16 +1,20 @@
 const mongoose = require("mongoose");
-const db = require("./models");
+const itemSchema = mongoose.model('Item').schema;
 
 const listaSchema = new mongoose.Schema({
    name: {
       type: String,
       required: 'Nome não pode estar vazio!'
    },
-   mercado: {
+   store: {
       type: String,
       default: 'Não definido'
    },
-   itens: [db.model('Item').Schema]
+   itens: [itemSchema],
+   createDate: {
+      type: Date,
+      default: Date.now()
+   }
 });
 
 const Lista = mongoose.model('Lista', listaSchema);

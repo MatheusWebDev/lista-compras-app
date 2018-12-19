@@ -1,59 +1,54 @@
 <% include ../layouts/header %>
 
-<h2>Listas de Compras</h2>
+<div class="d-flex justify-content-between align-items-center">
+    <h2>Listas de Compras</h2>
+    <a href="/listas/new" class="btn btn-info">Nova Lista</a>
+</div>
 <hr>
 <div class="row mt-5">
-   <div class="col-6">
-      <div class="card text-white bg-primary mb-3">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <div class="">
-                <h3 class="h4">Nome da Lista</h3>
-                <p class="h5 text-muted">Nome da Lista</p>
+    <% listas.forEach( lista => { %>
+        <div class="col-6">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-header d-flex justify-content-between align-items-start">
+                    <div class="">
+                        <h3 class="h4"><%= lista.name %></h3>
+                        <p class="h5 text-muted"><%= lista.store %></p>
+                    </div>
+                    <div class="">
+                        <a href="/listas/<%= lista._id %>/edit" class="btn btn-info btn-sm font-weight-bold">Editar Lista</a>
+                        <form action="/listas/<%= lista._id %>?_method=DELETE" method="POST" class="d-inline-block ml-2">
+                            <button type="submit" class="btn btn-danger btn-sm font-weight-bold">Deletar Lista</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="card-body text-center">
+                    <% if(lista.itens.length < 1){ %>
+                        <div class="alert alert-danger">
+                            Nenhum item encontrado. Adicione itens clicando no botão abaixo.
+                        </div>
+                    <% } else { %>
+                        <ul class="list-group text-primary">
+                            <% lista.itens.forEach( item => { %>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <%= item.name %>
+                                    <div>
+                                        <span class="badge badge-primary px-3 py-2">R$ <%= item.price %></span>
+                                        <span class="badge badge-primary px-3 py-2"><%= item.amount %> un</span>
+                                        <span class="badge badge-dark px-3 py-2"><%= item.category %></span>
+                                        <a href="/lista/<%= lista._id %>/item/<%= item._id %>/edit" class="btn btn-info btn-sm ml-2">EDT</a>
+                                    </div>
+                                </li>
+                            <% }) %>
+                        </ul>
+                    <% } %>
+                    <a href="/listas/<%= lista._id %>/itens/add" class="btn btn-success mt-2 px-5"><strong>ADD ITEM</strong></a>
+                </div>
+                <div class="card-footer text-center text-muted">
+                    <p class="h4 mb-0"><strong>Preço total: </strong> <span class="text-info">R$ 0,01</span></p>
+                </div>
             </div>
-            <div class="">
-                <a href="#" class="btn btn-info">Editar Lista</a>
-                <form action="#" method="" class="d-inline-block ml-3">
-                    <button type="submit" class="btn btn-danger">Deletar Lista</button>
-                </form>
-            </div>
         </div>
-        <div class="card-body text-center">
-          <ul class="list-group text-primary">
-           <li class="list-group-item d-flex justify-content-between align-items-center">
-             Cras justo odio
-             <div>
-                <span class="badge badge-primary px-3 py-2">R$ 0,01</span>
-                <span class="badge badge-primary px-3 py-2">1 un</span>
-                <span class="badge badge-dark px-3 py-2">Categoria</span>
-                <button class="btn btn-info btn-sm ml-2">EDT</button>
-             </div>
-           </li>
-           <li class="list-group-item d-flex justify-content-between align-items-center">
-             Dapibus ac facilisis in
-             <div>
-                <span class="badge badge-primary px-3 py-2">R$ 0,01</span>
-                <span class="badge badge-primary px-3 py-2">1 un</span>
-                <span class="badge badge-dark px-3 py-2">Categoria</span>
-                <button class="btn btn-info btn-sm ml-2">EDT</button>
-             </div>
-           </li>
-           <li class="list-group-item d-flex justify-content-between align-items-center">
-             Morbi leo risus
-             <div>
-                <span class="badge badge-primary px-3 py-2">R$ 0,01</span>
-                <span class="badge badge-primary px-3 py-2">1 un</span>
-                <span class="badge badge-dark px-3 py-2">Categoria</span>
-                <button class="btn btn-info btn-sm ml-2">EDT</button>
-             </div>
-           </li>
-         </ul>
-         <a href="#" class="btn btn-success mt-2 px-5"><strong>ADD ITEM</strong></a>
-        </div>
-        <div class="card-footer text-center text-muted">
-            <p class="h4 mb-0"><strong>Preço total: </strong> <span class="text-info">R$ 0,01</span></p>
-        </div>
-      </div>
-   </div>
+    <% }) %>
 </div>
 
 <% include ../layouts/footer %>

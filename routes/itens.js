@@ -19,7 +19,7 @@ router.route('/')
 		req.checkBody('name', 'Campo NOME é obrigatorio').notEmpty();
 		req.checkBody('category', 'Campo Categoria é obrigatorio').notEmpty();
 		let errors = req.validationErrors();
-
+		console.log(errors)
 		if (errors) { // Caso haver ERRO, renderiza o formulário novamente com os erros (find categorias para o select)
 			db.Category.find({}, (err, categories) => {
 				if (err) return res.send(err);
