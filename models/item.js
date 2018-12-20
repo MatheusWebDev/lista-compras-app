@@ -11,11 +11,14 @@ var itemSchema = new mongoose.Schema({
     },
     price: {
         type: Number,
-        default: 0.01
+        default: 0.00
     },
     category: {
         type: String,
         required: 'Categoria do item não pode estar vazio!'
+    },
+    imgUrl: {
+        type: String
     }
 });
 

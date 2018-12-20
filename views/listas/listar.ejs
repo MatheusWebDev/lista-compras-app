@@ -1,13 +1,14 @@
 <% include ../layouts/header %>
 
+<% var precoTotal = 0.00 %>
 <div class="d-flex justify-content-between align-items-center">
     <h2>Listas de Compras</h2>
     <a href="/listas/new" class="btn btn-info">Nova Lista</a>
 </div>
 <hr>
-<div class="row mt-5">
+<div class="row mt-5 justify-content-center">
     <% listas.forEach( lista => { %>
-        <div class="col-6">
+        <div class="col-8">
             <div class="card text-white bg-primary mb-3">
                 <div class="card-header d-flex justify-content-between align-items-start">
                     <div class="">
@@ -42,7 +43,9 @@
                                 return 0;
                             }) %>
                             <!-- ./END -->
+                            
                             <% lista.itens.forEach(item => { %>
+                            <% if(!item.price === 0.01) precoTotal += item.price %>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <%= item.name %>
                                     <div>
@@ -58,10 +61,13 @@
                             <% }) %>
                         </ul>
                     <% } %>
-                    <a href="/listas/<%= lista._id %>/itens/add" class="btn btn-success mt-2 px-5"><strong>ADD ITEM</strong></a>
+                    <a href="/listas/<%= lista._id %>/itens/add" class="btn btn-success mt-3 px-3"><strong>ADD ITENS</strong></a>
+                    <form action="/listas/<%= lista._id %>/itens?_method=DELETE" method="POST" class="d-inline-block ml-2">
+                        <button type="submit" class="btn btn-danger font-weight-bold mt-3 px-3">DEL TODOS</button>
+                    </form>
                 </div>
                 <div class="card-footer text-center text-muted">
-                    <p class="h4 mb-0"><strong>Preço total: </strong> <span class="text-info">R$ 0,01</span></p>
+                    <p class="h4 mb-0"><strong>Preço total: </strong> <span class="text-info">R$ <%= precoTotal %></span></p>
                 </div>
             </div>
         </div>

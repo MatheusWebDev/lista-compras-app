@@ -1,3 +1,7 @@
 .login-row {
    min-height: 400px;
 }
+
+.nav-item.dropdown {
+    cursor: pointer;
+}

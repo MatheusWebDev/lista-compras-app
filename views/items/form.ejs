@@ -11,29 +11,37 @@
 				<% } else { %>
 					<input class="form-control" type="text" name="name" value="<%= item.name %>">
 				<% } %>
-			</div>
-		  <div class="form-group">
-				<label>Categoria</label>
+            </div>
+            <div class="form-group">
+				<label>URL da Imagem</label>
 				<% if(typeof item === 'undefined'){ %>
-					<select class="custom-select" name="category">
-						<option value="">- selecione a categoria -</option>
-						<% categories.forEach( category => { %>
-							<option value="<%= category.title %>"><%= category.title %></option>
-						<% }) %>
-					</select>
+					<input class="form-control" type="text" name="imgUrl" placeholder="URL da Imagem">
 				<% } else { %>
-					<select class="custom-select" name="category">
-						<% categories.forEach( category => { %>
-							<% if(item.category == category.title){ %>
-								<option selected value="<%= category.title %>"><%= category.title %></option>
-							<% } else { %>
-								<option  value="<%= category.title %>"><%= category.title %></option>
-							<% } %>
-						<% }) %>
-					</select>
+					<input class="form-control" type="text" name="imgUrl" value="<%= item.imgUrl %>">
 				<% } %>
 			</div>
-			<button class="btn btn-primary" type="submit">Salvar</button>
+            <div class="form-group">
+                <label>Categoria</label>
+                <% if(typeof item === 'undefined'){ %>
+                    <select class="custom-select" name="category">
+                        <option value="">- selecione a categoria -</option>
+                        <% categories.forEach( category => { %>
+                            <option value="<%= category.title %>"><%= category.title %></option>
+                        <% }) %>
+                    </select>
+                <% } else { %>
+                    <select class="custom-select" name="category">
+                        <% categories.forEach( category => { %>
+                            <% if(item.category == category.title){ %>
+                                <option selected value="<%= category.title %>"><%= category.title %></option>
+                            <% } else { %>
+                                <option  value="<%= category.title %>"><%= category.title %></option>
+                            <% } %>
+                        <% }) %>
+                    </select>
+                <% } %>
+            </div>
+            <button class="btn btn-primary" type="submit">Salvar</button>
 		</form>
 		<p>
 			<a href="/itens" class="text-info">Voltar</a>

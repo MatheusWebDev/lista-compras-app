@@ -6,7 +6,7 @@
     <% items.forEach( item => { %>
       <div class="col-3">
         <div class="card text-center mb-4">
-          <img class="card-img-top img-fluid" src="https://via.placeholder.com/270x180" alt="Card image cap">
+          <img class="card-img-top img-fluid" src="<%= item.imgUrl %>" alt="<%= item.name %>">
           <div class="card-body">
             <h5 class="card-title"><%= item.name %></h5>
             <strong class="text-secondary mr-1">Categoria: </strong><span class="badge badge-primary badge-pill"><%= item.category %></span>

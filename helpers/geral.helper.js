@@ -24,7 +24,7 @@ const extractItem = function (itemSelected) {
     let nameStart = itemSelected.indexOf("name: \'");
     let nameEnd = itemSelected.indexOf("\',\r\n");
     let catStart = itemSelected.indexOf("category: \'");
-    let catEnd = itemSelected.indexOf("\',\r\n  __v:");
+    let catEnd = itemSelected.indexOf("\',\r\n  img");
     let idStart = itemSelected.indexOf("\n  _id: ");
     let idEnd = itemSelected.indexOf(",\r\n  n");
 
@@ -42,7 +42,8 @@ exports.addItemToList = function (itemSelected, lista) {
     if (!lista.itens.some(i => i.name === itemToAdd.name)) {
         lista.itens.push(itemToAdd);
     }
+    console.log(lista)
     lista.save(err => {
-        if (!err) console.log("itens adicionados na lista");
+        err ? console.log(err) : console.log('Itens adicionados com sucesso');
     });
 };

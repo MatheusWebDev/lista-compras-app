@@ -1,17 +1,17 @@
 const express = require("express"),
-   expressValidator = require('express-validator'),
-   methodOverride = require('method-override'),
-   bodyParser = require("body-parser"),
-   passport = require('passport'),
-   mongoose = require("mongoose"),
-   session = require('express-session'),
-   morgan = require('morgan'),
-   moment = require('moment'),
-   helper = require('./helpers/geral.helper'),
-   flash = require('connect-flash'),
-   path = require('path'),
-   ejs = require('ejs'),
-   app = express();
+    expressValidator = require('express-validator'),
+    methodOverride = require('method-override'),
+    bodyParser = require("body-parser"),
+    passport = require('passport'),
+    mongoose = require("mongoose"),
+    session = require('express-session'),
+    morgan = require('morgan'),
+    moment = require('moment'),
+    helper = require('./helpers/geral.helper'),
+    flash = require('connect-flash'),
+    path = require('path'),
+    ejs = require('ejs'),
+    app = express();
 const PORT = process.env.PORT || 3000;
 
 // Requiring routes
@@ -38,9 +38,9 @@ app.use(morgan('dev'));
 
 // Express Session
 app.use(session({
-   secret: 'secret',
-   saveUninitialized: true,
-   resave: true
+    secret: 'secret',
+    saveUninitialized: true,
+    resave: true
 }));
 
 // Init passport
@@ -50,31 +50,31 @@ app.use(passport.session());
 // Express messages
 app.use(flash());
 app.use((req, res, next) => {
-   res.locals.success_msg = req.flash('success_msg');
-   res.locals.error_msg = req.flash('error_msg');
-   res.locals.error = req.flash('error');
-   res.locals.user = req.user || null;
-   res.locals.isEmpty = helper.isEmpty;
-   res.locals.moment = moment;
-   next();
+    res.locals.success_msg = req.flash('success_msg');
+    res.locals.error_msg = req.flash('error_msg');
+    res.locals.error = req.flash('error');
+    res.locals.user = req.user || null;
+    res.locals.isEmpty = helper.isEmpty;
+    res.locals.moment = moment;
+    next();
 });
 
 // Express Validator
 app.use(expressValidator({
-   errorFormatter: (param, msg, value) => {
-      let namespace = param.split('.'),
-         root = namespace.shift(),
-         formParam = root;
+    errorFormatter: (param, msg, value) => {
+        let namespace = param.split('.'),
+            root = namespace.shift(),
+            formParam = root;
 
-      while (namespace.length) {
-         formParam += '[' + namespace.shift() + ']';
-      }
-      return {
-         param: formParam,
-         msg: msg,
-         value: value
-      };
-   }
+        while (namespace.length) {
+            formParam += '[' + namespace.shift() + ']';
+        }
+        return {
+            param: formParam,
+            msg: msg,
+            value: value
+        };
+    }
 }));
 
 
@@ -85,5 +85,5 @@ app.use('/listas', listRoutes);
 
 
 app.listen(PORT, () => {
-   console.log(`App rodando na porta ${PORT}`);
+    console.log(`App rodando na porta ${PORT}`);
 });

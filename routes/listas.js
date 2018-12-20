@@ -64,6 +64,18 @@ router.post('/:id/itens', (req, res) => {
     });
 });
 
+// Rota que deleta TODOS os ITENS na LISTA DE COMPRAS
+router.delete('/:id/itens', (req, res) => {
+    db.Lista.findOne({ _id: req.params.id }, null, (err, lista) => {
+        if (err) return res.send(err);
+        lista.itens = [];
+        lista.save(err => {
+            err ? console.log(err) : req.flash('success_msg', 'Itens deletados com sucesso');
+        });
+        res.redirect('/listas');
+    });
+});
+
 // Rota que deleta ITENS na LISTA DE COMPRAS
 router.delete('/:id/itens/:name', (req, res) => {
     db.Lista.findOne({ _id: req.params.id }, null, (err, lista) => {
