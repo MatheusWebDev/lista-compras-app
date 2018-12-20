@@ -28,7 +28,21 @@
                         </div>
                     <% } else { %>
                         <ul class="list-group text-primary">
-                            <% lista.itens.forEach( item => { %>
+                            <!--ORDENA OS ITENS PELA CATEGORIA-->
+                            <% lista.itens = lista.itens.sort(function (a, b) {
+                                var catA = a.category.toUpperCase(); // ignore upper and lowercase
+                                var catB = b.category.toUpperCase(); // ignore upper and lowercase
+                                if (catA < catB) {
+                                    return -1;
+                                }
+                                if (catA > catB) {
+                                    return 1;
+                                }
+                                // names must be equal
+                                return 0;
+                            }) %>
+                            <!-- ./END -->
+                            <% lista.itens.forEach(item => { %>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <%= item.name %>
                                     <div>
@@ -36,6 +50,9 @@
                                         <span class="badge badge-primary px-3 py-2"><%= item.amount %> un</span>
                                         <span class="badge badge-dark px-3 py-2"><%= item.category %></span>
                                         <a href="/lista/<%= lista._id %>/item/<%= item._id %>/edit" class="btn btn-info btn-sm ml-2">EDT</a>
+                                        <form action="/listas/<%= lista._id %>/itens/<%= item.name %>?_method=DELETE" method="POST" class="d-inline-block ml-2">
+                                            <button type="submit" class="btn btn-danger btn-sm font-weight-bold">X</button>
+                                        </form>
                                     </div>
                                 </li>
                             <% }) %>
