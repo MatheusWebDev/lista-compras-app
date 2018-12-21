@@ -1,0 +1,32 @@
+<% include ../layouts/header %>
+
+<div class="d-flex justify-content-between align-items-center">
+    <h2><%= title %></h2>
+</div>
+<hr>
+
+<div class="row">
+	<div class="col-4">
+		<form method="post" action="/listas/<%= lista._id %>/item/<%= itemEdit.name %>?_method=PUT">
+			<div class="form-group">
+                <label>Preço</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="item-price">R$</span>
+                    </div>
+                    <input class="form-control" type="text" name="price" value="<%= itemEdit.price %>" aria-describedby="item-price">
+                </div>
+            </div>
+            <div class="form-group">
+				<label>Qantidade</label>
+                <input class="form-control" type="text" name="amount" value="<%= itemEdit.amount %>">
+			</div>
+            <button class="btn btn-primary" type="submit">Salvar</button>
+		</form>
+		<p>
+			<a href="/listas" class="text-info mt-3">Voltar</a>
+		</p>
+	</div>
+</div>
+
+<% include ../layouts/footer %>

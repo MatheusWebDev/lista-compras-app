@@ -3,14 +3,12 @@ const express = require("express"),
     methodOverride = require('method-override'),
     bodyParser = require("body-parser"),
     passport = require('passport'),
-    mongoose = require("mongoose"),
     session = require('express-session'),
     morgan = require('morgan'),
     moment = require('moment'),
     helper = require('./helpers/geral.helper'),
     flash = require('connect-flash'),
     path = require('path'),
-    ejs = require('ejs'),
     app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -79,9 +77,9 @@ app.use(expressValidator({
 
 
 app.use('/', indexRoutes);
-app.use('/itens', itemRoutes);
-app.use('/categorias', catRoutes);
-app.use('/listas', listRoutes);
+app.use('/itens', helper.checkIsLogged, itemRoutes);
+app.use('/categorias', helper.checkIsLogged, catRoutes);
+app.use('/listas', helper.checkIsLogged, listRoutes);
 
 
 app.listen(PORT, () => {

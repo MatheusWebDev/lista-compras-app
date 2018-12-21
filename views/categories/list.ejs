@@ -1,7 +1,11 @@
 <% include ../layouts/header %>
 
+<div class="d-flex justify-content-between align-items-center">
+    <h2><%= title %></h2>
+</div>
+<hr>
+
 <% if(categories.length > 0) { %>
-  <h4 class="mb-3">Categorias</h4>
   <div class="list-group">
     <% categories.forEach( category => { %>
       <a href="/itens/categoria/<%= category.title.toLowerCase() %>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">

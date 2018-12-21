@@ -40,7 +40,7 @@ router.get('/:id/itens/add', (req, res) => {
         if (err) return res.send(err);
         db.Item.find({}, null, (err, itens) => {
             if (err) return res.send(err);
-            res.render('listas/form-add-item', { title: 'Add Item na Lista: ', lista, itens });
+            res.render('listas/form-add-item', { title: 'Add Itens na Lista: ', lista, itens });
         });
     });
 });
@@ -87,6 +87,43 @@ router.delete('/:id/itens/:name', (req, res) => {
         });
         lista.save(err => {
             if (!err) res.redirect('/listas');
+        });
+    });
+});
+
+// Formulário para ADD preço/qtd no ITEM da LISTA DE COMPRAS
+router.get('/:id/item/:name/edit', (req, res) => {
+    db.Lista.findOne({ _id: req.params.id }, null, (err, lista) => {
+        if (err) return res.send(err);
+        const itemEdit = lista.itens.filter(item => {
+            //let idItemObj = helper.toObjId(req.params.iditem);
+            if (item.name === req.params.name) {
+                console.log("entrou")
+                return item;
+            }
+        });
+        console.log(itemEdit);
+        res.render('listas/form-add-price-item', { title: 'Editar Item da Lista de Compra', itemEdit: itemEdit[0], lista });
+    });
+});
+
+// Rota que salva preço/qtd do ITEM da LISTA DE COMPRAS
+router.put('/:id/item/:name', (req, res) => {
+    db.Lista.findOne({ _id: req.params.id }, null, (err, lista) => {
+        if (err) return res.send(err);
+        lista.itens = lista.itens.map(item => {
+            if (item.name === req.params.name) {
+                item.price = req.body.price.replace(',', '.');
+                item.amount = req.body.amount;
+                return item;
+            } else {
+                return item;
+            }
+        });
+        lista.save(err => {
+            if (err) return res.send(err);
+            req.flash('success_msg', 'Item editado com sucesso');
+            res.redirect('/listas');
         });
     });
 });

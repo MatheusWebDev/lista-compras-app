@@ -1,6 +1,9 @@
 <% include ../layouts/header %>
 
-<% var precoTotal = 0.00 %>
+<%
+    var precoTotal = 0.00
+    var count = 0
+%>
 <div class="d-flex justify-content-between align-items-center">
     <h2>Listas de Compras</h2>
     <a href="/listas/new" class="btn btn-info">Nova Lista</a>
@@ -10,10 +13,15 @@
     <% listas.forEach( lista => { %>
         <div class="col-8">
             <div class="card text-white bg-primary mb-3">
-                <div class="card-header d-flex justify-content-between align-items-start">
+                <% count++ %>
+                <div class="card-header d-flex justify-content-between align-items-start" role="button" data-toggle="collapse" href="#card-body<%= count %>" aria-expanded="false" aria-controls="card-body<%= count %>">
                     <div class="">
                         <h3 class="h4"><%= lista.name %></h3>
-                        <p class="h5 text-muted"><%= lista.store %></p>
+                        <p class="h5 text-muted">
+                            <%= lista.store %>
+                            <span class="mx-3">|</span>
+                            <span><%= moment(lista.createDate).format("MM/DD/YYYY") %></span>
+                        </p>
                     </div>
                     <div class="">
                         <a href="/listas/<%= lista._id %>/edit" class="btn btn-info btn-sm font-weight-bold">Editar Lista</a>
@@ -22,7 +30,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="card-body text-center">
+                <div class="card-body text-center collapse" id="card-body<%= count %>">
                     <% if(lista.itens.length < 1){ %>
                         <div class="alert alert-danger">
                             Nenhum item encontrado. Adicione itens clicando no botão abaixo.
@@ -45,14 +53,18 @@
                             <!-- ./END -->
                             
                             <% lista.itens.forEach(item => { %>
-                            <% if(!item.price === 0.01) precoTotal += item.price %>
+                            <% precoTotal += item.price*item.amount %>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <%= item.name %>
                                     <div>
-                                        <span class="badge badge-primary px-3 py-2">R$ <%= item.price %></span>
-                                        <span class="badge badge-primary px-3 py-2"><%= item.amount %> un</span>
+                                        <a href="/listas/<%= lista._id %>/item/<%= item.name %>/edit" class="no-text-deco-hover">
+                                            <span class="badge badge-primary px-3 py-2">
+                                                R$ 
+                                                <%= item.price < 10 ? item.price.toPrecision(3).toString().replace('.', ',') : item.price.toPrecision(4).toString().replace('.', ',') %></span>
+                                            <span class="badge badge-primary px-3 py-2"><%= item.amount %> un</span>
+                                        </a>
                                         <span class="badge badge-dark px-3 py-2"><%= item.category %></span>
-                                        <a href="/lista/<%= lista._id %>/item/<%= item._id %>/edit" class="btn btn-info btn-sm ml-2">EDT</a>
+                                        
                                         <form action="/listas/<%= lista._id %>/itens/<%= item.name %>?_method=DELETE" method="POST" class="d-inline-block ml-2">
                                             <button type="submit" class="btn btn-danger btn-sm font-weight-bold">X</button>
                                         </form>
@@ -67,7 +79,8 @@
                     </form>
                 </div>
                 <div class="card-footer text-center text-muted">
-                    <p class="h4 mb-0"><strong>Preço total: </strong> <span class="text-info">R$ <%= precoTotal %></span></p>
+                    <% precoTotal < 10 ? precoTotal = precoTotal.toPrecision(3) : precoTotal < 99 ? precoTotal = precoTotal.toPrecision(4) : precoTotal = precoTotal.toPrecision(5) %>
+                    <p class="h4 mb-0"><strong>Preço total: </strong> <span class="text-info">R$ <%= precoTotal.toString().replace('.', ',') %></span></p>
                 </div>
             </div>
         </div>

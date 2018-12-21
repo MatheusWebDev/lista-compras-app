@@ -47,3 +47,8 @@ exports.addItemToList = function (itemSelected, lista) {
         err ? console.log(err) : console.log('Itens adicionados com sucesso');
     });
 };
+
+// Converte o ID to ObjectID
+exports.toObjId = function (id) {
+    return objId(id);
+};

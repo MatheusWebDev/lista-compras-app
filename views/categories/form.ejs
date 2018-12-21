@@ -1,8 +1,12 @@
 <% include ../layouts/header %>
 
+<div class="d-flex justify-content-between align-items-center">
+    <h2><%= title %></h2>
+</div>
+<hr>
+
 <div class="row">
 	<div class="col-4">
-		<h2><%= title %></h2>
 		<form method="post" action="<%= typeof category === 'undefined' ? '/categorias' : `/categorias/${category._id}?_method=PUT` %>">
 			<div class="form-group">
 				<label>Titulo</label>

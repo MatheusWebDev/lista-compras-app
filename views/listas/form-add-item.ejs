@@ -1,9 +1,12 @@
 <% include ../layouts/header %>
 
+<div class="d-flex justify-content-between align-items-center">
+    <h2><%= title %><strong><%= lista.name %></strong></h2>
+</div>
+<hr>
+
 <div class="row">
 	<div class="col-12">
-		<h2><%= title %><strong><%= lista.name %></strong></h2>
-		<hr>
 		<form method="POST" action="/listas/<%= lista._id %>/itens">
 		  <div class="form-group">
 				<label class="h5 mb-4">Marque os itens que deseja adicionar: </label>

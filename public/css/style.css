@@ -5,3 +5,7 @@
 .nav-item.dropdown {
     cursor: pointer;
 }
+
+.no-text-deco-hover:hover {
+    text-decoration: none;
+}
