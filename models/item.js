@@ -18,7 +18,8 @@ var itemSchema = new mongoose.Schema({
         required: 'Categoria do item não pode estar vazio!'
     },
     imgUrl: {
-        type: String
+        type: String,
+        default: "http://via.placeholder.com/300"
     }
 });
 
