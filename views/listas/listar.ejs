@@ -1,7 +1,7 @@
 <% include ../layouts/header %>
 
 <%
-    var precoTotal = 0.00
+    var precoTotal = 0
     var count = 0
 %>
 <div class="d-flex justify-content-between align-items-center">
@@ -79,10 +79,16 @@
                     </form>
                 </div>
                 <div class="card-footer text-center text-muted">
-                    <% precoTotal < 10 ? precoTotal = precoTotal.toPrecision(3) : precoTotal < 99 ? precoTotal = precoTotal.toPrecision(4) : precoTotal = precoTotal.toPrecision(5) %>
-                    <p class="h4 mb-0"><strong>Preço total: </strong> <span class="text-info">R$ <%= precoTotal.toString().replace('.', ',') %></span></p>
+                    <p class="h4 mb-0">
+                        <strong>Preço total: </strong>
+                        <span class="text-info">
+                            R$ 
+                            <%= precoTotal < 10 ? precoTotal.toPrecision(3).toString().replace('.', ',') : precoTotal < 99 ? precoTotal.toPrecision(4).toString().replace('.', ',') : precoTotal.toPrecision(5).toString().replace('.', ',') %>
+                        </span>
+                    </p>
                 </div>
             </div>
+            <% precoTotal = 0 %>
         </div>
     <% }) %>
 </div>

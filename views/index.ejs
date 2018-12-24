@@ -1,18 +1,6 @@
 <% include layouts/header %>
 
 <h1><%= title %></h1>
-<p>Welcome <%= user.name %></p>
-<p>
-    <a href="/itens" class="text-info">Ver Itens</a>
-</p>
-<p>
-    <a href="/itens/add" class="text-info">Add Item</a>
-</p>
-<p>
-    <a href="/listas" class="text-info">Ver Listas</a>
-</p>
-<p>
-    <a href="/listas/add" class="text-info">Add Lista</a>
-</p>
+<p>Bem-Vindo <strong class="text-info"><%= user.name %></strong> ao melhor App de Lista de Compras</p>
 
 <% include layouts/footer %>

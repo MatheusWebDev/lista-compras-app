@@ -53,11 +53,17 @@ router.post('/:id/itens', (req, res) => {
         if (size.length > 60) {
             // Extract Name ID e Category do ITEM | & | Adiciona na LISTA DE COMPRAS
             helper.addItemToList(req.body.selectedItens, lista);
+            lista.save(err => {
+                err ? console.log(err) : console.log('Itens adicionados com sucesso');
+            });
             res.redirect('/listas');
         } else {
             req.body.selectedItens.forEach(select => {
                 // Extract Name ID e Category do ITEM | & | Adiciona na LISTA DE COMPRAS
                 helper.addItemToList(select, lista);
+            });
+            lista.save(err => {
+                err ? console.log(err) : console.log('Itens adicionados com sucesso');
             });
             res.redirect('/listas');
         }
@@ -98,7 +104,6 @@ router.get('/:id/item/:name/edit', (req, res) => {
         const itemEdit = lista.itens.filter(item => {
             //let idItemObj = helper.toObjId(req.params.iditem);
             if (item.name === req.params.name) {
-                console.log("entrou")
                 return item;
             }
         });

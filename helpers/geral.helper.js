@@ -21,17 +21,20 @@ exports.isEmpty = function (obj) {
 
 // Extract Name ID e Category do ITEM
 const extractItem = function (itemSelected) {
+    console.log('-----------------------------------------');
+    console.log(itemSelected);
+    console.log('-----------------------------------------');
     let nameStart = itemSelected.indexOf("name: \'");
-    let nameEnd = itemSelected.indexOf("\',\r\n");
+    let nameEnd = itemSelected.indexOf("\',\r\n  cat");
     let catStart = itemSelected.indexOf("category: \'");
-    let catEnd = itemSelected.indexOf("\',\r\n  img");
+    let catEnd = itemSelected.indexOf("\',\r\n  __v");
     let idStart = itemSelected.indexOf("\n  _id: ");
     let idEnd = itemSelected.indexOf(",\r\n  n");
 
     return {
         _id: objId(itemSelected.slice(idStart + 8, idEnd)),
         name: itemSelected.slice(nameStart + 7, nameEnd),
-        category: itemSelected.slice(catStart + 11, catEnd)
+        category: itemSelected.slice(catStart + 11, catEnd),
     };
 };
 
@@ -42,10 +45,6 @@ exports.addItemToList = function (itemSelected, lista) {
     if (!lista.itens.some(i => i.name === itemToAdd.name)) {
         lista.itens.push(itemToAdd);
     }
-    console.log(lista)
-    lista.save(err => {
-        err ? console.log(err) : console.log('Itens adicionados com sucesso');
-    });
 };
 
 // Converte o ID to ObjectID
