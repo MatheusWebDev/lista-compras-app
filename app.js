@@ -54,6 +54,7 @@ app.use((req, res, next) => {
     res.locals.user = req.user || null;
     res.locals.isEmpty = helper.isEmpty;
     res.locals.moment = moment;
+    res.locals.messages = require('express-messages')(req, res);
     next();
 });
 
