@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 mongoose.set('debug', true);
-mongoose.connect('mongodb://localhost/todolist-app', { useNewUrlParser: true });
+mongoose.connect('mongodb://localhost/todolist-app', { useNewUrlParser: true, useUnifiedTopology: true });
 //mongoose.Promise = Promise;
 
 module.exports.User = require("./user");

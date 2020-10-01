@@ -1,7 +1,6 @@
 const express = require("express"),
     expressValidator = require('express-validator'),
     methodOverride = require('method-override'),
-    bodyParser = require("body-parser"),
     passport = require('passport'),
     session = require('express-session'),
     morgan = require('morgan'),
@@ -18,6 +17,13 @@ const itemRoutes = require("./routes/itens");
 const catRoutes = require("./routes/categorias");
 const listRoutes = require("./routes/listas");
 
+// API ROUTES
+const apiIdxRoutes = require('./api/index');
+const apiUsersRoutes = require('./api/users');
+const apiItensRoutes = require('./api/itens');
+const apiCatRoutes = require('./api/categorias');
+const apiListRoutes = require('./api/listas');
+
 // View Engine
 app.set('view engine', 'ejs');
 
@@ -25,8 +31,8 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Body Parser Middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Method-Override Middleware => override HTTP verbs having '?_method=DELETE'
 app.use(methodOverride('_method'));
@@ -81,6 +87,12 @@ app.use('/', indexRoutes);
 app.use('/itens', helper.checkIsLogged, itemRoutes);
 app.use('/categorias', helper.checkIsLogged, catRoutes);
 app.use('/listas', helper.checkIsLogged, listRoutes);
+
+app.use('/api', apiIdxRoutes);
+app.use('/api/users', helper.checkIsLoggedApi, apiUsersRoutes);
+app.use('/api/itens', helper.checkIsLoggedApi, apiItensRoutes);
+app.use('/api/categorias', helper.checkIsLoggedApi, apiCatRoutes);
+app.use('/api/listas', helper.checkIsLoggedApi, apiListRoutes);
 
 
 app.listen(PORT, () => {

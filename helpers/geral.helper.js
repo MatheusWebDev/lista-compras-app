@@ -10,6 +10,15 @@ exports.checkIsLogged = function (req, res, next) {
     }
 };
 
+exports.checkIsLoggedApi = function (req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    } else {
+        res.status(401).json({ message: 'Você não está autorizado a acessar esta API' });
+    }
+};
+
+
 // Check Object is Empty
 exports.isEmpty = function (obj) {
     for (var key in obj) {
